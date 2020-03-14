@@ -90,63 +90,55 @@
 ; There will be endless loop, because of trying to evaluate every arguments of new-if
 
 ;;;Exercise 1.7
-(define (sqrt-iter guess x)
-  (if (good-enough? guess x)
-      guess
-      (sqrt-iter (improve guess x)
-                 x)))
-
-(define (improve guess x)
-  (average guess (/ x guess)))
 
 (define (average x y)
   (/ (+ x y) 2))
 
-(define (good-enough? guess x)
-    (< 
-        (/ 
-            (abs 
-                (- guess (improve guess x)))
-                guess)
-        0.001))
 
 (define (sqrt x)
-  (sqrt-iter 1.0 x))
+    (define (sqrt-iter guess)
+    (if (good-enough? guess)
+        guess
+        (sqrt-iter (improve guess))))
+
+    (define (improve guess)
+    (average guess (/ x guess)))
+
+    (define (good-enough? guess)
+        (< 
+            (/ 
+                (abs 
+                    (- guess (improve guess)))
+                    guess)
+            0.001))
+
+    (sqrt-iter 1.0))
 
 ; (sqrt 9)
 ; idk how test this correctly for now
 
 
 ;;; Execrcise 1.8
-
-(define (qbrt-iter guess x)
-  (if (good-enough? guess x)
-      guess
-      (qbrt-iter (improve guess x)
-                 x)))
-
-(define (improve guess x)
-  (/ (+ (/ x (square guess)) (* 2 guess)) 3))
-
-
-(define (good-enough? guess x)
-    (< 
-        (/ 
-            (abs 
-                (- guess (improve guess x)))
-                guess)
-        0.001))
-
-(define (cube x) (* x x x))
-(define (square x) (* x x))
-
 (define (qbrt x)
-  (qbrt-iter 1.0 x))
+  (define (qbrt-iter guess)
+    (if (good-enough? guess)
+        guess
+        (qbrt-iter (improve guess))))
+
+  (define (improve guess)
+    (/ (+ (/ x (square guess)) (* 2 guess)) 3))
+
+
+  (define (good-enough? guess)
+    (< 
+     (/ 
+      (abs 
+       (- guess (improve guess)))
+      guess)
+     0.001))
+
+  (define (square x) (* x x))
+  (qbrt-iter 1.0))
 
 ; (qbrt 27)
 ; idk how test this correctly either
-
-
-
-
-
