@@ -63,5 +63,23 @@ It's iterative process:
 
 (define (h n) (A 2 n)) ; = 2 power 2 n times (for example: (A 2 4) => 2^2^2^2)
 
-(define (k n) (* 5 n n)) ; 5 * n^2
+(define (k n) (* 5 n n)) ; = 5 * n^2
 
+;;;Exercise 1.11
+
+
+(define (f-recurs n) 
+  (cond ((< n 3) n)
+        (else (+ (f-recurs (- n 1)) (f-recurs (- n 2)) (f-recurs (- n 3))))))
+
+(define (f-iter n)
+  (define (iter counter a b c)
+    (cond ((< n 3) n)
+          ((> counter n) (+ a b c))
+          (else (iter (+ counter 1) b c (+ a b c)))))
+  (iter 4 0 1 2))
+
+
+(check-equal? (f-recurs 5) (f-iter 5))
+(check-equal? (f-recurs 20) (f-iter 20))
+(check-equal? (f-recurs 2) (f-iter 2))
