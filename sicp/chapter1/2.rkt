@@ -83,3 +83,19 @@ It's iterative process:
 (check-equal? (f-recurs 5) (f-iter 5))
 (check-equal? (f-recurs 20) (f-iter 20))
 (check-equal? (f-recurs 2) (f-iter 2))
+
+;;;Exercise 1.12
+
+(define (pascal row col)
+  (cond ((or (> col row) (= col 0)) 0)
+        ((or (= col row) (= col 1)) 1)
+        (else (+ (pascal (- row 1) (- col 1)) (pascal (- row 1) col)))))
+
+(check-equal? (pascal 0 0) 0)
+(check-equal? (pascal 5 3) 6)
+(check-equal? (pascal 6 3) 10)
+(check-equal? (pascal 2 1) 1)
+
+;;;Exercise 1.13
+
+;I am not proving anything, sorry
