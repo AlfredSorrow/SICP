@@ -96,6 +96,27 @@ It's iterative process:
 (check-equal? (pascal 6 3) 10)
 (check-equal? (pascal 2 1) 1)
 
-;;;Exercise 1.13
+;;;Exercise 1.16
 
-;I am not proving anything, sorry
+(define (exp b n)
+  (if (= n 0)
+      1
+      (* b (exp b (- n 1)))))
+
+(define (square x) (* x x))
+
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define (super-fast-exp b n)
+  (define (iter b n product)
+    (cond ((= n 0) product)
+          ((even? n) (iter (square b) (/ n 2) product))
+          (else (iter b (- n 1) (* product b)))))
+  (iter b n 1))
+
+(check-equal? (exp 0 0) (super-fast-exp 0 0))
+(check-equal? (exp 5 8) (super-fast-exp 5 8))
+(check-equal? (super-fast-exp 2 10) 1024)
+
+
