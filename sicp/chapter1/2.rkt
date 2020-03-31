@@ -61,7 +61,7 @@ It's iterative process:
 
 (define (g n) (A 1 n)) ; = 2^n
 
-(define (h n) (A 2 n)) ; = 2 power 2 n times (for example: (A 2 4) => 2^2^2^2)
+(define (h n) (A 2 n)) ; = 2 power 2 n-1 times (for example: (A 2 4) => 2^2^2^2)
 
 (define (k n) (* 5 n n)) ; = 5 * n^2
 
@@ -120,3 +120,29 @@ It's iterative process:
 (check-equal? (super-fast-exp 2 10) 1024)
 
 
+;;;Exercise 1.17
+
+(define (double a) (+ a a))
+(define (halve a) (/ a 2))
+
+(define (multiply a b)
+  (cond ((< b 2) a)
+    ((even? b) (multiply (double a) (halve b)))
+    (else (+ a (multiply (double a) (halve (- b 1)))))))
+
+(check-equal? (multiply 0 0) (* 0 0))
+(check-equal? (multiply 5 8) (* 5 8))
+(check-equal? (multiply 13 25) (* 13 25))
+
+;;;Exercise 1.18
+
+(define (multiply-iter a b)
+  (define (iter a b product)
+    (cond ((< b 2) (+ a product))
+          ((even? b) (iter (double a) (halve b) product))
+          (else (iter (double a) (halve (- b 1)) (+ a product)))))
+  (iter a b 0))
+
+(check-not-equal? (multiply 5 2) (multiply-iter 5 3))
+(check-equal? (multiply 6 8) (multiply-iter 6 8))
+(check-equal? (multiply 13 25) (multiply-iter 13 25))
