@@ -3,72 +3,66 @@
 (#%require rackunit)
 ;;;Exercise 1.1
 
-10
-;10
+(check-equal? 10 10)
 
-(+ 5 3 4)
-;12
+(check-equal? (+ 5 3 4) 12)
 
-(- 9 1)
-;8
+(check-equal? (- 9 1) 8)
 
-(/ 6 2)
-;3
+(check-equal? (/ 6 2) 3)
 
-(+ (* 2 4) (- 4 6))
-;6
+(check-equal? (+ (* 2 4) (- 4 6)) 6)
 
 (define a 3)
 (define b (+ a 1))
-(+ a b (* a b))
-;19
 
-(= a b)
-;#f
 
-(if (and (> b a) (< b (* a b)))
-    b
-    a)
-;4
+(check-equal? (+ a b (* a b)) 19)
 
-(cond ((= a 4) 6)
-    ((= b 4) (+ 6 7 a))
-    (else 25))
-;16
 
-(+ 2 (if (> b a) b a))
-;6
+(check-equal? (= a b) #f)
 
-(* (cond ((> a b) a)
-         ((< a b) b)
-         (else -1))
-    (+ a 1))
-;16
+(check-eq? (if (and(> b a) (< b (* a b)))
+               b
+               a) 4)
+
+
+
+(check-equal? (cond ((= a 4) 6)
+                    ((= b 4) (+ 6 7 a))
+                    (else 25)) 16)
+
+(check-equal? (+ 2 (if (> b a) b a)) 6)
+
+(check-equal? (* (cond ((> a b) a)
+                       ((< a b) b)
+                       (else -1))
+                 (+ a 1)) 16)
 
 ;;;Exercise 1.2
 
-(/  (+ 5 4 
-        (- 2 
-            (- 3 
-                (+ 6 
-                    (/ 4 5))))) 
-    (* 3 
-        (- 6 2)
-        (- 2 7)))
-;-37/150
+(check-equal? (/  (+ 5 4
+                     (- 2
+                        (- 3
+                           (+ 6
+                              (/ 4 5)))))
+                  (* 3
+                     (- 6 2)
+                     (- 2 7))) -37/150)
+
 
 ;;;Exercise 1.3
 
 (define (>= x y)
-    (not (< x y)))
+  (not (< x y)))
 
 (define (square x) (* x x))
 
 (define (sum-of-squares x y)
-    (+ (square x) (square y)))
+  (+ (square x) (square y)))
 
 (define (sum-of-squares-of-two-highest a b c)
-    (cond ((and (>= a b) (>= c b)) (sum-of-squares a c))
+  (cond ((and (>= a b) (>= c b)) (sum-of-squares a c))
         ((and (>= a c) (>= b c)) (sum-of-squares a b))
         ((and (>= b a) (>= c a)) (sum-of-squares b c))))
 
@@ -96,26 +90,25 @@
 
 
 (define (sqrt x)
-    (define (sqrt-iter guess)
+  (define (sqrt-iter guess)
     (if (good-enough? guess)
         guess
         (sqrt-iter (improve guess))))
 
-    (define (improve guess)
+  (define (improve guess)
     (average guess (/ x guess)))
 
-    (define (good-enough? guess)
-        (< 
-            (/ 
-                (abs 
-                    (- guess (improve guess)))
-                    guess)
-            0.001))
+  (define (good-enough? guess)
+    (<
+     (/
+      (abs
+       (- guess (improve guess)))
+      guess)
+     0.001))
 
-    (sqrt-iter 1.0))
+  (sqrt-iter 1.0))
 
-; (sqrt 9)
-; idk how test this correctly for now
+(check-equal? (round (sqrt 9)) 3.0)
 
 
 ;;; Execrcise 1.8
@@ -130,9 +123,9 @@
 
 
   (define (good-enough? guess)
-    (< 
-     (/ 
-      (abs 
+    (<
+     (/
+      (abs
        (- guess (improve guess)))
       guess)
      0.001))
@@ -140,5 +133,5 @@
   (define (square x) (* x x))
   (qbrt-iter 1.0))
 
-; (qbrt 27)
-; idk how test this correctly either
+(check-equal? (round (qbrt 27)) 3.0)
+(check-equal? (round (qbrt 64)) 4.0)
