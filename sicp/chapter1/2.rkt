@@ -4,7 +4,7 @@
 
 ;;;Exercise 1.9
 
-#| 
+#|
 
 In case:
 
@@ -26,7 +26,7 @@ It's recursive process:
 9
 
 
-In case 
+In case
 
 (define (+ a b)
   (if (= a 0)
@@ -61,14 +61,14 @@ It's iterative process:
 
 (define (g n) (A 1 n)) ; = 2^n
 
-(define (h n) (A 2 n)) ; = 2 power 2 n-1 times (for example: (A 2 4) => 2^2^2^2)
+(define (h n) (A 2 n)) ; = 2 power 2 n-1 times (for example: (A 2 4) => 2^2^2^2))
 
 (define (k n) (* 5 n n)) ; = 5 * n^2
 
 ;;;Exercise 1.11
 
 
-(define (f-recurs n) 
+(define (f-recurs n)
   (cond ((< n 3) n)
         (else (+ (f-recurs (- n 1)) (f-recurs (- n 2)) (f-recurs (- n 3))))))
 
@@ -127,8 +127,8 @@ It's iterative process:
 
 (define (multiply a b)
   (cond ((< b 2) a)
-    ((even? b) (multiply (double a) (halve b)))
-    (else (+ a (multiply (double a) (halve (- b 1)))))))
+        ((even? b) (multiply (double a) (halve b)))
+        (else (+ a (multiply (double a) (halve (- b 1)))))))
 
 (check-equal? (multiply 0 0) (* 0 0))
 (check-equal? (multiply 5 8) (* 5 8))
@@ -146,3 +146,25 @@ It's iterative process:
 (check-not-equal? (multiply 5 2) (multiply-iter 5 3))
 (check-equal? (multiply 6 8) (multiply-iter 6 8))
 (check-equal? (multiply 13 25) (multiply-iter 13 25))
+
+;;;Exercise 1.19
+
+(define (fib n)
+  (define (fib-iter a b p q n)
+    (cond ((= n 0) b)
+          ((even? n) (fib-iter a
+                               b
+                               (+ (* p p) (* q q))
+                               (+ (* 2 p q) (* q q))
+                               (/ n 2)))
+          (else (fib-iter (+ (* b q) (* a q) (* a p))
+                          (+ (* b p) (* a q))
+                          p
+                          q
+                          (- n 1)))))
+  (fib-iter 1 0 0 1 n)
+  )
+
+(check-equal? (fib 0) 0)
+(check-equal? (fib 6) 8)
+(check-equal? (fib 15) 610)
