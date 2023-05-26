@@ -168,3 +168,59 @@ It's iterative process:
 (check-equal? (fib 0) 0)
 (check-equal? (fib 6) 8)
 (check-equal? (fib 15) 610)
+
+;;;Exercise 1.21
+(define (smallest-divisor n)
+  (define (divides? a b)
+    (= (remainder b a) 0))
+  (define (find-divisor test-divisor)
+    (cond ((> (square test-divisor) n) n)
+          ((divides? test-divisor n) test-divisor)
+          (else (find-divisor (+ test-divisor 1)))))
+  (find-divisor 2))
+
+
+
+(check-equal? (smallest-divisor 199) 199)
+(check-equal? (smallest-divisor 1999) 1999)
+(check-equal? (smallest-divisor 19999) 7)
+
+
+;;;Exercise 1.22
+(define (prime? n)
+  (define (smallest-divisor)
+    (define (divides? a b)
+      (= (remainder b a) 0))
+    (define (find-divisor test-divisor)
+      (cond ((> (square test-divisor) n) n)
+            ((divides? test-divisor n) test-divisor)
+            (else
+             (find-divisor (+
+                            test-divisor 2)
+                           ))))
+    (if (divides? 2 n) 2 (find-divisor 3)))
+  (= n (smallest-divisor)))
+
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
+
+(define (start-prime-test n start-time)
+  (if (prime? n)
+      (report-prime (- (runtime) start-time))))
+
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (search-for-primes start end)
+  (cond ((> start end) "Done")
+        ((prime? start) (display start) (newline) (search-for-primes (+ start 1) end))
+        (else (search-for-primes (+ start 1) end))))
+
+; (search-for-primes 1000 1100) ; 1021 1031 1033 ...
+; (search-for-primes 10000 10100) ; 10007 10009 10037 ...
+; (search-for-primes 100000 100100) ; 100003 100019 100043 ...
+; (search-for-primes 1000000 1001000) ; 1000003 1000033 1000037 ...
+
