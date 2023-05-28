@@ -41,13 +41,13 @@
 
 (define one-half (make-rat 1 2))
 
-(print-rat one-half) ; 1/2
+; (print-rat one-half) ; 1/2
 
 (define one-third (make-rat 1 3))
 
-(print-rat (add-rat one-half one-third)) ; 5/6
+; (print-rat (add-rat one-half one-third)) ; 5/6
 
-(print-rat (add-rat one-third one-third)) ; 6/9 -> 2/3
+; (print-rat (add-rat one-third one-third)) ; 6/9 -> 2/3
 
 
 ;;; Exercise 2.1
@@ -58,7 +58,7 @@
         (cons (/ (- (abs numer)) g) (/ (abs denom) g))
         (cons (/ numer g) (/ denom g)))))
 
-(print-rat (make-rat2 -2 -4))
+; (print-rat (make-rat2 -2 -4))
 
 
 ;;; Exercise 2.2
@@ -97,9 +97,9 @@
   (display ")")
   (newline))
 
-(print-point (midpoint-segment (make-segment (make-point 0 0) (make-point 4 4)))) ; (2,2)
-(print-point (midpoint-segment (make-segment (make-point 1 2) (make-point 9 10)))) ; (5,6)
-(print-point (midpoint-segment (make-segment (make-point -10 -20) (make-point 5 15)))) ; (-2.5,-2.5)
+; (print-point (midpoint-segment (make-segment (make-point 0 0) (make-point 4 4)))) ; (2,2)
+; (print-point (midpoint-segment (make-segment (make-point 1 2) (make-point 9 10)))) ; (5,6)
+; (print-point (midpoint-segment (make-segment (make-point -10 -20) (make-point 5 15)))) ; (-2.5,-2.5)
 
 ;;; Exercise 2.3
 
@@ -140,7 +140,7 @@
   (display (perimeter-rectangle r))
   (newline))
 
-(print-rectangle (make-rectangle (make-point 0 0) (make-point 4 4))) ; (0,0) (4,4) 4 4 16 16
+;(print-rectangle (make-rectangle (make-point 0 0) (make-point 4 4))) ; (0,0) (4,4) 4 4 16 16
 
 
 ;;; Exercise 2.4
@@ -163,7 +163,7 @@
   (display ")")
   (newline))
 
-(print-pair (cons2 1 3)) ; (1,3)
+;(print-pair (cons2 1 3)) ; (1,3)
 
 ;;; Exercise 2.5
 
@@ -189,7 +189,41 @@
   (display ")")
   (newline))
 
-(print-pair2 (cons3 10 20)) ; (10, 20)
+; (print-pair2 (cons3 10 20)) ; (10, 20)
 
 
+;;; Exercise 2.17
+
+(define (last-pair items)
+  (if (null? (cdr items))
+      (car items)
+      (last-pair (cdr items))))
+
+(check-equal? (last-pair (list 23 72 149 34)) 34)
+(check-equal? (last-pair (list 23)) 23)
+(check-equal? (last-pair (list nil)) nil)
+
+
+;;; Exercise 2.18
+
+(define (reverse items)
+  (define (iter inner-items result)
+    (if (null? inner-items)
+        result
+        (iter (cdr inner-items) (cons (car inner-items) result))))
+  (iter items nil))
+
+(check-equal? (reverse (list 1 4 9 16 25)) (list 25 16 9 4 1))
+
+;;; Exercise 2.20
+
+(define (same-parity . items)
+  (define (iter inner-items result)
+    (cond ((null? inner-items) result)
+          ((= (remainder (car inner-items) 2) (remainder (car items) 2))
+           (iter (cdr inner-items) (cons (car inner-items) result)))
+          (else (iter (cdr inner-items) result))))
+  (iter (reverse items) nil))
+
+(check-equal? (same-parity 1 2 3 4 5 6 7) (list 1 3 5 7))
 
