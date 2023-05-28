@@ -186,7 +186,7 @@ It's iterative process:
 (check-equal? (smallest-divisor 19999) 7)
 
 
-;;;Exercise 1.22
+;;;Exercise 1.22 - 1.23 ("next" skipped, new "prime?" procedure has required check)
 (define (prime? n)
   (define (smallest-divisor)
     (define (divides? a b)
@@ -223,4 +223,3 @@ It's iterative process:
 ; (search-for-primes 10000 10100) ; 10007 10009 10037 ...
 ; (search-for-primes 100000 100100) ; 100003 100019 100043 ...
 ; (search-for-primes 1000000 1001000) ; 1000003 1000033 1000037 ...
-
